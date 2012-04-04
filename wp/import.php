@@ -30,6 +30,7 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 			'id' => substr( md5 ( time() * rand() ), 0, 10 ),
 			'extra' => '',
 			'before_element' => '',
+			'uploader' => 'file',
 			'after_element' => '',
 			'option_group' => $tk_form_instance_option_group
 		);
@@ -46,7 +47,7 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 		
 		$this->done_import = FALSE;
 		
-		parent::__construct( $name, $args );
+		parent::__construct( $name, $parsed_args );
 	}
 	
 	function validate_actions( $input ){
