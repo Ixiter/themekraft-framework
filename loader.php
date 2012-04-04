@@ -23,18 +23,18 @@ if( !function_exists( 'tkf_init_010' ) ){
 			$function_name = 'tkf_init_' . str_replace( '.', '', $tkf_version );
 			
 			// Removing functions from init actionhook 
-			if( has_action( 'init', $function_name ) ){
+			if( has_action( 'after_setup_theme', $function_name ) ){
 				remove_action( $tag, $function_name );
 			}
 			
 			// Add own action to actionhook
 			$tkf_version = $this_tkf_version;
-			add_action( 'init', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 0 );
+			add_action( 'after_setup_theme', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 1 );
 		}
 	}else{
 		// Add own action to actionhook
 		$tkf_version = $this_tkf_version;
-		add_action( 'init', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 0 );
+		add_action( 'after_setup_theme', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 1 );
 	}
 	
 	function tk_framework( $args = array()  ){
@@ -81,8 +81,10 @@ if( !function_exists( 'tkf_init_010' ) ){
 		
 		add_action( 'admin_init', 'tk_register_option_groups' ); // should not be here
 		
-		add_action( 'init', 'tk_load_framework', 1 );
-		add_action( 'init', 'tk_load_jqueryui', 1 );
+		add_action( 'after_setup_theme', 'tk_load_framework', 1 );
+		
+		if(is_admin())
+			add_action( 'after_setup_theme', 'tk_load_jqueryui', 1 );
 	}
 	
 	function tk_register_option_groups(){
