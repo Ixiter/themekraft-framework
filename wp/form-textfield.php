@@ -33,19 +33,23 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 			'id' => '',
 			'extra' => '',
 			'option_group' => $tk_form_instance_option_group,
+			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
-		$args = wp_parse_args( $args, $defaults );
-		extract( $args , EXTR_SKIP );
-
+		$parsed_args = wp_parse_args( $args, $defaults );
+		extract( $parsed_args , EXTR_SKIP );
+		
 		if( $post != '' ){
 
 			$option_group_value = get_post_meta( $post->ID , $option_group , true );
 			
 			$field_name = $option_group . '[' . $name . ']';
-			$value = $option_group_value[ $name ];
+			if( $multi_index != '' )
+				$value = $option_group_value[ $name ][ $multi_index ];
+			else
+				$value = $option_group_value[ $name ];
 
 		}else{
 			$value = get_option( $option_group  . '_values' );
@@ -53,7 +57,10 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 			$this->option_group = $option_group;
 			$field_name = $option_group . '_values[' . $name . ']';	
 			
-			$value = $value[ $name ];
+			if( $multi_index != '' )
+				$value = $value[ $name ][ $multi_index ];
+			else
+				$value = $value[ $name ];
 		}
 		
 		$args['name'] = $field_name;

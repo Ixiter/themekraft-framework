@@ -31,17 +31,20 @@ class TK_Form_Textfield extends TK_Form_Element{
 			'name' => '',
 			'value' => '',
 			'extra' => '',
+			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
-		$args = wp_parse_args($args, $defaults);
-		extract( $args , EXTR_SKIP );
+		$parsed_args = wp_parse_args($args, $defaults);
+		extract( $parsed_args , EXTR_SKIP );
 		
 		parent::__construct( $args );
 		
 		$this->id = $id;
 		$this->extra = $extra;
+		
+		$this->multi_index = $multi_index;
 		
 		$this->before_element = $before_element;
 		$this->after_element = $after_element;		
@@ -63,12 +66,23 @@ class TK_Form_Textfield extends TK_Form_Element{
 		$extra = '';
 		
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
+		if( $this->name != '' ):
+			if( $this->multi_index != '' ):
+				$name = ' name="' . $this->name . '[' . $this->multi_index . ']"';
+				$value = $this->value[$this->multi_index];
+			else:
+				$name = ' name="' . $this->name . '"';
+				$value = $this->value;
+			endif;
+		endif;
+		
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
 		if( $this->extra != '' ) $extra = $this->extra;
 		
 		$html = $this->before_element;
+		
 		$html.= '<input' . $id . $name . $value . $extra . ' type="text" />';
+		
 		$html.= $this->after_element;
 		
 		return $html;
