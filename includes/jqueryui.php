@@ -33,6 +33,7 @@ class TK_Jqueryui{
 		$this->init_known_jqueryui_components();
 		
 		$this->register_components();
+		
 	}
 	
 	/**
@@ -66,6 +67,7 @@ class TK_Jqueryui{
 		if( $css ){
 			wp_enqueue_style( 'jquery-ui-css', TKF_URL . '/includes/css/jquery-ui.css' );
 			wp_enqueue_style( 'jquery-colorpicker-css', TKF_URL . '/includes/css/colorpicker.css' );
+			wp_enqueue_style( 'linedtextarea', TKF_URL . '/includes/css/jquery-linedtextarea.css' );
 			wp_enqueue_style( 'tkf-css', TKF_URL . '/includes/css/tkf.css' );
 			wp_enqueue_style( 'thickbox' );
 		}
@@ -149,11 +151,18 @@ class TK_Jqueryui{
 			
 		$this->add_jqueryui_component( 'jquery-colorpicker', TKF_URL . '/includes/js/jquery/colorpicker.js', '1.8.16' );
 		$this->add_jqueryui_component( 'jquery-fileuploader', TKF_URL . '/includes/js/jquery/fileuploader.js', '1.8.16' );
+		$this->add_jqueryui_component( 'jquery-linedtextarea', TKF_URL . '/includes/js/jquery/jquery-linedtextarea.js', '1.3.2' );
+		$this->add_jqueryui_component( 'jquery-autogrow-textarea', TKF_URL . '/includes/js/jquery/jquery.elastic.source', '1.6.11' );
 		
+	
 		// $this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );		
 		// $this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );
 		$this->add_depency( 'jquery-colorpicker', array( 'jquery-color' ) );
 		$this->add_depency( 'jquery-fileuploader', array( 'jquery', 'media-upload', 'thickbox' ) );			
+		$this->add_depency( 'jquery-linedtextarea', array( 'jquery' ) );			
+		$this->add_depency( 'jquery-autogrow-textarea', array( 'jquery', 'jquery-ui' ) );
+		
+					
 	}
 	
 	function init_known_jqueryui_components(){
