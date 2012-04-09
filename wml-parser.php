@@ -68,7 +68,7 @@ class TK_WML_Parser{
 		$functions['checkbox'] = array( 'name' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		$functions['radio'] = array( 'name' => '', 'value' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		
-		$functions['select'] = array( 'name' => '', 'option' => array(), 'label' => '', 'tooltip' => '',  'return_object' => $return_object );
+		$functions['select'] = array( 'name' => '', 'option' => array(), 'multiselect' => FALSE, 'size' => '', 'label' => '', 'tooltip' => '',  'return_object' => $return_object );
 		$functions['option'] = array( 'value' => '', 'name' => '' );
 		$bound_content['select'] = 'option';		
 		
@@ -431,7 +431,7 @@ function tk_db_radio( $name, $value, $description, $label, $tooltip, $return_obj
 	return tk_form_radiobutton( $name, $value, $args, $return_object );
 }
 
-function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE ){
+function tk_db_select( $name, $options, $multiselect = FALSE, $size = '',  $label, $tooltip = '', $return_object = TRUE ){
 	if( trim( $label ) != '' ){
 			
 		tk_add_text_string( $label );
@@ -439,9 +439,12 @@ function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE 
 		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
-	}		 
+	}
+	
 	$args = array(
 		'id' => $name,
+		'multiselect' =>  (boolean) $multiselect,
+		'size' =>  $size,
 		'before_element' => $before_element,
 		'after_element' => $after_element
 	);

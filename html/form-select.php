@@ -34,6 +34,7 @@ class TK_Form_select extends TK_Form_element{
 			'name' => '',
 			'value' => '',
 			'size' => '',
+			'multiselect' => FALSE,
 			'extra' => ''
 		);
 		
@@ -44,6 +45,7 @@ class TK_Form_select extends TK_Form_element{
 		
 		$this->size = $size;		
 		$this->elements = array();
+		$this->multiselect = $multiselect;
 		$this->extra = $extra;
 		$this->before_element = $before_element;
 		$this->after_element = $after_element;
@@ -88,12 +90,19 @@ class TK_Form_select extends TK_Form_element{
 		$extra = '';
 		
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
+		
 		if( $this->size != '' ) $size = ' size="' . $this->size . '"';		
 		if( $this->extra != '' ) $extra = $this->extra;
 		
+		if( $this->multiselect ):
+			if( $this->name != '' ) $name = ' name="' . $this->name . '[]"';
+			$multiselect = ' multiple="multiple"';
+		else:
+			if( $this->name != '' ) $name = ' name="' . $this->name . '"';
+		endif;
+		
 		$html = $this->before_element;
-		$html.= '<select' . $id . $name . $size . $extra . '>';
+		$html.= '<select' . $id . $name . $size . $multiselect . $extra . '>';
 		
 		$options = '';
 
@@ -107,12 +116,25 @@ class TK_Form_select extends TK_Form_element{
 				
 				if( $option_name == '' )
 					$option_name = $value;
+				
+				if( is_array( $this->value ) ):
+					// If value is from a multiselect box
+					if( in_array( $value, $this->value ) ):
+						$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
+					else:
+						$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
+					endif;					
 					
-				if( $this->value == $value && $value != '' ){
-					$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
-				}else{
-					$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
-				}
+					
+				else:
+					// Standard value
+					if( $this->value == $value && $value != '' ):
+						$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
+					else:
+						$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
+					endif;
+					
+				endif;
 				
 			}
 

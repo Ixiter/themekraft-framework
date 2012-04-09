@@ -33,13 +33,14 @@ class TK_WP_Form_Select extends TK_Form_Select{
 			'id' => '',
 			'extra' => '',
 			'size' => '',
+			'multiselect' => FALSE,
 			'option_group' => $tk_form_instance_option_group,
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
-		$args = wp_parse_args($args, $defaults);
-		extract( $args , EXTR_SKIP );
+		$parsed_args = wp_parse_args( $args, $defaults);
+		extract( $parsed_args , EXTR_SKIP );
 		
 		if( $post != '' ){
 
@@ -57,10 +58,10 @@ class TK_WP_Form_Select extends TK_Form_Select{
 			$value = $value[ $name ];
 		} 
 		
-		$args['name'] = $field_name;
-		$args['value'] = $value;
+		$parsed_args['name'] = $field_name;
+		$parsed_args['value'] = $value;
 		
-		parent::__construct( $args );
+		parent::__construct( $parsed_args );
 
 	}			
 }
