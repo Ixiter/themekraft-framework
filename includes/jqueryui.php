@@ -152,7 +152,7 @@ class TK_Jqueryui{
 		$this->add_jqueryui_component( 'jquery-colorpicker', TKF_URL . '/includes/js/jquery/colorpicker.js', '1.8.16' );
 		$this->add_jqueryui_component( 'jquery-fileuploader', TKF_URL . '/includes/js/jquery/fileuploader.js', '1.8.16' );
 		$this->add_jqueryui_component( 'jquery-linedtextarea', TKF_URL . '/includes/js/jquery/jquery-linedtextarea.js', '1.3.2' );
-		$this->add_jqueryui_component( 'jquery-autogrow-textarea', TKF_URL . '/includes/js/jquery/jquery.elastic.source', '1.6.11' );
+		$this->add_jqueryui_component( 'jquery-autogrow-textarea', TKF_URL . '/includes/js/jquery/jquery.elastic.source.js', '1.6.11' );
 		
 	
 		// $this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );		
