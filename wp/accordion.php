@@ -69,7 +69,7 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 	 * @return string $html The accordion as html
 	 * 
 	 */
-	function get_html( $hide_element = TRUE ){
+	function get_html( $hide_element = FALSE ){
 		global $tk_hidden_elements;
 		
 		// Creating elements
@@ -148,8 +148,8 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 	}
 	
 }
-function tk_accordion( $id, $elements, $return_object = false ){
-	$accordion = new TK_Jqueryui_Accordion( $id );	
+function tk_accordion( $id, $elements, $return_object = FALSE ){
+	$accordion = new TK_Jqueryui_Accordion( $id );
 	
 	foreach ( $elements AS $element ){
 		
@@ -163,8 +163,10 @@ function tk_accordion( $id, $elements, $return_object = false ){
 			'extra_title' => $element['extra_title'],
 			'extra_content' => $element['extra_content']
 		);
+		
 		$accordion->add_section( $element['id'], $element['title'], $element['content'], $args );
 	}
+	
 	if( TRUE == $return_object ){
 		return $accordion;
 	}else{
