@@ -69,7 +69,7 @@ class TK_WML_Parser{
 		$functions['radio'] = array( 'name' => '', 'value' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		
 		$functions['select'] = array( 'name' => '', 'option' => array(), 'multiselect' => FALSE, 'size' => '', 'label' => '', 'tooltip' => '',  'return_object' => $return_object );
-		$functions['option'] = array( 'value' => '', 'name' => '' );
+		$functions['option'] = array( 'id' => '', 'value' => '', 'name' => '' );
 		$bound_content['select'] = 'option';		
 		
 		$functions['button'] = array( 'name' => '', 'return_object' => $return_object );
@@ -453,14 +453,14 @@ function tk_db_select( $name, $options, $multiselect = FALSE, $size = '',  $labe
 	return $select->get_html();
 }
 
-function tk_db_option( $value, $name ){
+function tk_db_option( $id, $value, $name ){
 	
 	if( $name == '' )
 		$name = $value;
 		
 	tk_add_text_string( $name );
 	
-	return array( 'value' => $value, 'option_name' => $name );
+	return array( 'id' => $id, 'value' => $value, 'option_name' => $name );
 }
 
 function tk_db_button( $name, $return_object = TRUE ){

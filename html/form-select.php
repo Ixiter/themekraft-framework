@@ -62,6 +62,7 @@ class TK_Form_select extends TK_Form_element{
 	 */
 	function add_option( $value, $args = array() ){
 		$defaults = array(
+			'id' => '',
 			'option_name' => '',
 			'extra' => ''
 		);
@@ -69,7 +70,7 @@ class TK_Form_select extends TK_Form_element{
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args , EXTR_SKIP );
 		
-		$this->elements[ $value ] = array( 'option_name' => $option_name, 'extra' => $extra );
+		$this->elements[ $value ] = array( 'id' => $id, 'option_name' => $option_name, 'extra' => $extra );
 	}
 	
 	/**
@@ -81,6 +82,7 @@ class TK_Form_select extends TK_Form_element{
 	 * @return string $html The HTML of select box
 	 */
 	function get_html(){
+		global $tk_hidden_elements;
 		
 		$this->merge_option_elements();
 		
@@ -110,32 +112,34 @@ class TK_Form_select extends TK_Form_element{
 			
 			foreach( $this->elements AS $value => $element ){
 				
-				$value_string =  ' value="' . $value . '"';
-				$option_name = $element['option_name'];
-				$extra_string = $element['extra'];
-				
-				if( $option_name == '' )
-					$option_name = $value;
-				
-				if( is_array( $this->value ) ):
-					// If value is from a multiselect box
-					if( in_array( $value, $this->value ) ):
-						$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
-					else:
-						$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
-					endif;					
+				if( !in_array( $element['id'], $tk_hidden_elements ) ):
 					
+					$option_name = $element['option_name'];
+					$extra_string = $element['extra'];
 					
-				else:
-					// Standard value
-					if( $this->value == $value && $value != '' ):
-						$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
+					if( $option_name == '' )
+						$option_name = $value;
+					
+					if( is_array( $this->value ) ):
+						// If value is from a multiselect box
+						if( in_array( $value, $this->value ) ):
+							$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
+						else:
+							$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
+						endif;					
+						
+						
 					else:
-						$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
+						// Standard value
+						if( $this->value == $value && $value != '' ):
+							$options .=  '<option' . $value_string . ' selected' . $extra_string . '>' . $option_name . '</option>';
+						else:
+							$options .=  '<option' . $value_string . $extra_string . '>' . $option_name . '</option>';
+						endif;
+						
 					endif;
-					
 				endif;
-				
+				// No else because is only option in it
 			}
 
 		}
