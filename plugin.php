@@ -114,6 +114,22 @@ function init_backend(){
  tk_hide_element( 's1' );
  tk_hide_element( 'o3' );
  
+ $array = array(
+ 	0 => array(
+ 		0 => 'NullNull',
+ 		1 => 'NullEins'
+	),
+	1 => array(
+ 		0 => 'EinsNull',
+ 		1 => array(
+ 			0 => 'EinsEinsNull',
+ 			1 => 'EinsEinsEins'
+		)
+	)
+ );
+ echo '<br /><br />Ein Test: ';
+ echo tk_get_multiindex_value( $array, array( 0, 1 ) ); 
+ 
  
  
  // tk_select_add_option( 'myselect', '110', 'Svens Police value' );

@@ -4,6 +4,7 @@ class TK_Form_Textfield extends TK_Form_Element{
 	var $extra;
 	var $before_element;
 	var $after_element;
+	var $field_name_set;
 	
 	/**
 	 * PHP 4 constructor
@@ -36,6 +37,8 @@ class TK_Form_Textfield extends TK_Form_Element{
 			'after_element' => ''
 		);
 		
+		$this->field_name_set = FALSE;
+		
 		$parsed_args = wp_parse_args($args, $defaults);
 		extract( $parsed_args , EXTR_SKIP );
 		
@@ -66,16 +69,7 @@ class TK_Form_Textfield extends TK_Form_Element{
 		$extra = '';
 		
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ):
-			if( $this->multi_index != '' ):
-				$name = ' name="' . $this->name . '[' . $this->multi_index . ']"';
-				$value = $this->value[$this->multi_index];
-			else:
-				$name = ' name="' . $this->name . '"';
-				$value = $this->value;
-			endif;
-		endif;
-		
+		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
 		if( $this->extra != '' ) $extra = $this->extra;
 		

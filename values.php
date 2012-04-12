@@ -73,3 +73,12 @@ function tk_set_values( $option_group, $values ){
 	$val = new TK_Values( $option_group );
 	return $val->set_values( $values );
 }
+
+// Helper functions
+function tk_get_multiindex_value( $value, $multi_index, $i = 0 ){
+    if( count( $multi_index ) >  $i ):
+		return tk_get_multiindex_value( $value[$multi_index[$i]], $multi_index, ++$i );
+	else:
+		return $value;
+	endif;
+}
