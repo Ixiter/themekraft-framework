@@ -67,10 +67,10 @@ class TK_Form_select extends TK_Form_element{
 			'extra' => ''
 		);
 		
-		$args = wp_parse_args( $args, $defaults );
-		extract( $args , EXTR_SKIP );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		extract( $parsed_args , EXTR_SKIP );
 		
-		$this->elements[ $value ] = array( 'id' => $id, 'option_name' => $option_name, 'extra' => $extra );
+		$this->elements[ $value ] = array( 'id' => $id, 'value'=> $value, 'option_name' => $option_name, 'extra' => $extra );
 	}
 	
 	/**
@@ -84,28 +84,31 @@ class TK_Form_select extends TK_Form_element{
 	function get_html(){
 		global $tk_hidden_elements;
 		
+		// Merging values
 		$this->merge_option_elements();
 		
-		$id = '';
-		$name = '';
-		$size = '';
-		$extra = '';
+		// Setting up parameters
+		$id_string = '';
+		$name_string = '';
+		$size_string = '';
+		$extra_string = '';
 		
-		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
+		if( $this->id != '' ) $id_string = ' id="' . $this->id . '"';
 		
-		if( $this->size != '' ) $size = ' size="' . $this->size . '"';		
-		if( $this->extra != '' ) $extra = $this->extra;
+		if( $this->size != '' ) $size_string = ' size="' . $this->size . '"';		
+		if( $this->extra != '' ) $extra_string = $this->extra;
 		
 		if( $this->multiselect ):
-			if( $this->name != '' ) $name = ' name="' . $this->name . '[]"';
-			$multiselect = ' multiple="multiple"';
+			if( $this->name != '' ) $name_string = ' name="' . $this->name . '[]"';
+			$multiselect_string = ' multiple="multiple"';
 		else:
-			if( $this->name != '' ) $name = ' name="' . $this->name . '"';
+			if( $this->name != '' ) $name_string = ' name="' . $this->name . '"';
 		endif;
 		
 		$html = $this->before_element;
-		$html.= '<select' . $id . $name . $size . $multiselect . $extra . '>';
+		$html.= '<select' . $id_string . $name_string . $size_string . $multiselect_string . $extra_string . '>';
 		
+		// Adding options
 		$options = '';
 
 		if( count( $this->elements ) > 0 ){
@@ -114,7 +117,14 @@ class TK_Form_select extends TK_Form_element{
 				
 				if( !in_array( $element['id'], $tk_hidden_elements ) ):
 					
+					/*
+					echo '<pre>';
+					print_r( $element );
+					echo '</pre>';
+					 */
+					
 					$option_name = $element['option_name'];
+					$value_string = ' value="' . $value . '"';
 					$extra_string = $element['extra'];
 					
 					if( $option_name == '' )
