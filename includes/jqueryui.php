@@ -102,9 +102,9 @@ class TK_Jqueryui{
 						
 			if( !in_array( $component,  $this->enqueued_components ) ){
 				$this->add_enqueued_jqueryui_component( $component );
+				
 				wp_enqueue_script( $component );
 			}
-			
 		}
 	} 
 	
@@ -153,14 +153,13 @@ class TK_Jqueryui{
 		$this->add_jqueryui_component( 'jquery-fileuploader', TKF_URL . '/includes/js/jquery/fileuploader.js', '1.8.16' );
 		$this->add_jqueryui_component( 'jquery-linedtextarea', TKF_URL . '/includes/js/jquery/jquery-linedtextarea.js', '1.3.2' );
 		$this->add_jqueryui_component( 'jquery-autogrow-textarea', TKF_URL . '/includes/js/jquery/jquery.elastic.source.js', '1.6.11' );
-		
+		$this->add_jqueryui_component( 'jquery-sheepit', TKF_URL . '/includes/js/jquery/jquery.sheepit.js', '1.4' );
 	
-		// $this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );		
-		// $this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );
 		$this->add_depency( 'jquery-colorpicker', array( 'jquery-color' ) );
 		$this->add_depency( 'jquery-fileuploader', array( 'jquery', 'media-upload', 'thickbox' ) );			
 		$this->add_depency( 'jquery-linedtextarea', array( 'jquery' ) );			
 		$this->add_depency( 'jquery-autogrow-textarea', array( 'jquery', 'jquery-ui' ) );
+		$this->add_depency( 'jquery-sheepit', array( 'jquery', 'jquery-ui' ) );
 		
 					
 	}
