@@ -38,11 +38,12 @@ if( !function_exists( 'tkf_init_010' ) ){
 	}
 	
 	function tk_framework( $args = array()  ){
-		global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles, $tk_hidden_elements, $tk_autocomplete_elements;
+		global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles, $tk_hidden_elements, $tk_autocomplete_elements, $tkf_metabox_ids;
 		
 		$tk_hidden_elements = array();
 		$tk_select_option_elements = array();
 		$tk_autocomplete_elements = array();
+		$tkf_metabox_ids = array();
 		
 		$defaults = array(
 			'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete', 'jquery-linedtextarea', 'jquery-autogrow-textarea', 'jquery-sheepit' ),

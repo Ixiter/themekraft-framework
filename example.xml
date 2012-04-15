@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <wml>
 	<menu title="Custom Menu">
-		<page title="Tabs" headline="Tab test">
+		<page title="Tabs" headline="Tab test" slug="tabs">
 			<p>You can also put in Text here like in HTML</p>
 			<tabs>
-				<tab title="Tab 1">
+				<tab title="Tab 1" id="tab1">
 					Content in Tab 1
 				</tab>
 				<tab title="Tab 2">
@@ -31,7 +31,7 @@
 		</page>
 		<page title="Forms" headline="Form test">
 			<p>You can also put in Text here like in HTML</p>
-			<form name="myform">
+			<form name="myform" id="myform">
 
 				<textfield name="name" label="Name:" />
 				<textarea name="longtext" label="Long text:" />
@@ -86,4 +86,30 @@
 			
 		</page>
 	</menu>
+	<metabox id="mymetabox" title="Die Metabox" post_type="page">
+		<p>Ein klein wenig Text. Jajajaja</p>
+		<p>1234</p>
+		<tabs>
+			<tab title="Tab 1" id="tab1">
+				Content in Tab 1
+			</tab>
+			<tab title="Tab 2">
+				<accordion>
+				<section title="Section 1">
+					Content in Section 1
+				</section>
+				<section title="Section 2">
+					Content in Section 3
+				</section>
+				<section title="Section 3">
+					Content in Section 3
+				</section>
+		</accordion>
+			</tab>
+			<tab title="Tab 3">
+				Content in Tab 3
+			</tab>
+		</tabs>
+		
+	</metabox>
 </wml>
