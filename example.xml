@@ -91,7 +91,10 @@
 		<p>1234</p>
 		<tabs>
 			<tab title="Tab 1" id="tab1">
-				Content in Tab 1
+				<textfield id="firstname" name="firstname" label="First Name:" />
+				<textfield id="lastname" name="lastname" label="Last Name:" />
+				<colorpicker id="color01" name="color01" label="Choose your color:" />
+				<file id="myfile01" name="myfile01" label="File:" />
 			</tab>
 			<tab title="Tab 2">
 				<accordion>

@@ -175,6 +175,10 @@ class TK_WML_Parser{
 				global $tk_form_instance_option_group;					
 				$tk_form_instance_option_group = $params['name'];									
 			}
+			if( $function_name == 'metabox' ){
+				global $tkf_metabox_id;					
+				$tkf_metabox_id = $params['id'];									
+			}
 		}		
 		
 		/*

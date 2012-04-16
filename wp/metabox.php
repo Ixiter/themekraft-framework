@@ -13,7 +13,7 @@ class TK_WP_Metabox extends TK_HTML{
 	}
 	
 	function __construct( $id, $title, $content, $post_type = 'post' ){
-		global $tkf_metabox_ids;
+		global $tkf_metabox_ids, $tkf_metabox_id;
 		
 		parent::__construct();
 		
@@ -22,10 +22,12 @@ class TK_WP_Metabox extends TK_HTML{
 		$this->post_type = $post_type;
 		$this->content = $content;
 		
+		$tkf_metabox_id = $id;
+		
 		if( $this->id != '' && !in_array( $this->id, $tkf_metabox_ids ) ):
 			$html = apply_filters( 'tk_metabox_before_content_' . $this->id, $html );
 			add_action( 'add_meta_boxes', array( $this, 'create' ) );
-			array_push( $tkf_metabox_ids, $this->id );
+			array_push( $tkf_metabox_ids, $tkf_metabox_id );
 		endif;
 	}
 	
