@@ -40,6 +40,9 @@ class TK_WML_Parser{
 		$functions['menu'] = array( 'id' => '', 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent_slug' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
 		$functions['page'] = array( 'id' => '', 'title' => '', 'content' => '', 'headline' => '', 'slug' => '', 'icon' => '' );
 		$bound_content['menu'] = 'page';
+
+		// Posts
+		$functions['metabox'] = array( 'id' => '', 'title' => '', 'content' => '' , 'post_type' => '', 'return_object' => $return_object );
 		
 		// Tabs
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
@@ -171,6 +174,10 @@ class TK_WML_Parser{
 			if( $function_name == 'form' ){
 				global $tk_form_instance_option_group;					
 				$tk_form_instance_option_group = $params['name'];									
+			}
+			if( $function_name == 'metabox' ){
+				global $tkf_metabox_id;					
+				$tkf_metabox_id = $params['id'];									
 			}
 		}		
 		
@@ -304,6 +311,14 @@ function tk_db_menu( $id = '', $title = '', $elements = array(), $menu_slug = ''
 function tk_db_page( $id, $title, $content, $headline = '', $menu_slug = '' , $icon_url = '' ){
 	$page = array( 'id' => $id, 'menu_title' => $title, 'page_title' => $title, 'content' => $content, 'headline' => $headline, 'menu_slug' => $menu_slug, 'icon_url' => $icon_url );
 	return $page;
+}
+
+/*
+ * Post functions
+ */
+
+function tk_db_metabox( $id, $title, $content, $post_type ){
+	return tk_wp_metabox( $id, $title, $content, $post_type );
 }
 
 /*

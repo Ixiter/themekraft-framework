@@ -50,6 +50,11 @@ class TK_WP_Form extends TK_Form{
 		$html.= '<input type="hidden" name="action" value="update" />';
 		$html.= wp_nonce_field( $this->option_group . '-options', "_wpnonce", true , false ) ;
 		
+		$html.= '<br /><br />ID: tk_form_before_content_' . $this->id . '<br />';
+		
+		// Actionhook tk_form_before_content_ + id
+		if( $this->id != '' ) $html = apply_filters( 'tk_form_before_content_' . $this->id, $html );
+		
 		$this->add_element( $html );
 
 		$html = parent::get_html();

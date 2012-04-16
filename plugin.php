@@ -29,111 +29,11 @@ function init_backend(){
   * WML
   */
 	
- $wml = '<?xml version="1.0" ?>
-    		<wml>
-				<menu title="Custom Menu">
-					<page title="Tabs" headline="Tab test">
-						<p>You can also put in Text here like in HTML</p>
-						<tabs>
-							<tab title="Tab 1">
-								Content in Tab 1
-							</tab>
-							<tab title="Tab 2">
-								Content in Tab 2
-							</tab>
-							<tab title="Tab 3">
-								Content in Tab 3
-							</tab>
-						</tabs>
-					</page>
-					<page title="Accordions" headline="Accordion test">
-						<p>You can also put in Text here like in HTML</p>
-						<accordion>
-							<section title="Section 1">
-								Content in Section 1
-							</section>
-							<section title="Section 2">
-								Content in Section 3
-							</section>
-							<section title="Section 3">
-								Content in Section 3
-							</section>
-						</accordion>
-					</page>
-					<page title="Forms" headline="Form test">
-						<p>You can also put in Text here like in HTML</p>
-						<form name="myform">
-							<textfield name="name" label="Name:" tooltip="Put in your name"/>
-							<textarea name="longtext" label="Long text:" />
-							<checkbox name="mycheckbox" label="Check this:" description="Description for button" />
-							<radio name="radiotest" label="Radio test" value="1" description="Button 1" />
-							<radio name="radiotest" value="2" description="Button 2" />
-							<radio name="radiotest" value="3" description="Button 3" />
-							<select name="myselect" label="Select box">
-								<option name="First entry" value="first" />
-								<option name="Second entry" value="second" />
-								<option name="Third entry" value="third" />
-								<option name="Fourth entry" value="fourth" />
-							</select>
-							<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
-							<file name="ourfile" label="File" tooltip="Upload your file!" />
-							<button name="Save" />
-						</form>
-					</page>
-					<page title="Nested HTML" headline="Usind HTML in WML">
-						<p>As you can see,you can use HTML in WML.</p>
-						<table class="widefat">
-							<tr>
-								<td>HTML Table</td>
-							</tr>
-							<tr>
-								<td>
-									<accordion>
-										<section title="Section 1">
-											Content of an accordion in HTML
-										</section>
-									</accordion>
-								</td>
-							</tr>
-						</table>
-						
-					</page>
-				</menu>
-    		</wml>';
- 
- /*
-  * Example
-  */
- // tk_wml_parse( $wml );
- // Creating php file for translations
- // tk_wml_create_textfiles( $wml );
- 
  /*
   * Hiding elemts by id 
   */
  tk_hide_element( 's1' );
  tk_hide_element( 'o3' );
- 
- $array = array(
- 	0 => array(
- 		0 => 'NullNull',
- 		1 => 'NullEins'
-	),
-	1 => array(
- 		0 => 'EinsNull',
- 		1 => array(
- 			0 => 'EinsEinsNull',
- 			1 => 'EinsEinsEins'
-		)
-	)
- );
- echo '<br /><br />Ein Test: ';
- echo tk_get_multiindex_value( $array, array( 0, 1 ) ); 
- 
- 
- 
- // tk_select_add_option( 'myselect', '110', 'Svens Police value' );
- // tk_select_delete_option( 'myselect', 'first' );
  
  tk_autocomplete_add_value( 'city', 'Dusseldorf' );
  tk_autocomplete_delete_value( 'city', 'New York' );
@@ -146,7 +46,6 @@ function init_backend(){
  
  // Example for loading xml file
  tk_wml_parse_file( dirname( __FILE__ ) . '/example.xml' );
- // tk_wml_create_textfiles_from_wml_file( dirname( __FILE__ ) . '/example.xml' );
  
  
  /*
@@ -156,6 +55,13 @@ function init_backend(){
  
 }
 add_action( 'admin_menu', 'init_backend' );
+
+function tkf_test( $html ){
+	$my_html = "<br /><b>Hallo</b>";
+	
+	return $html . $my_html;
+}
+add_filter( 'tk_form_before_content_myform', 'tkf_test' );
 
 function tkf_fileactions( $file, $input ){
 	/*

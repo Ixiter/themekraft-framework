@@ -32,6 +32,7 @@ class TK_WP_Form_Select extends TK_Form_Select{
 		$defaults = array(
 			'id' => '',
 			'extra' => '',
+			'default_value' => '',
 			'size' => '',
 			'multiselect' => FALSE,
 			'option_group' => $tk_form_instance_option_group,
@@ -42,21 +43,8 @@ class TK_WP_Form_Select extends TK_Form_Select{
 		$parsed_args = wp_parse_args( $args, $defaults);
 		extract( $parsed_args , EXTR_SKIP );
 		
-		if( $post != '' ){
-
-			$option_group_value = get_post_meta( $post->ID , $option_group , TRUE );
-			
-			$field_name = $option_group . '[' . $name . ']';
-			$value = $option_group_value[ $name ];
-
-		}else{
-			$value = get_option( $option_group  . '_values' );
-						
-			$this->option_group = $option_group;
-			$field_name = $option_group . '_values[' . $name . ']';	
-			
-			$value = $value[ $name ];
-		} 
+		$field_name = tk_get_field_name( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index ) );
+		$value = tk_get_value( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index, 'default_value' => $default_value ) );
 		
 		$parsed_args['name'] = $field_name;
 		$parsed_args['value'] = $value;
