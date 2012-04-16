@@ -3,7 +3,7 @@
 	<menu title="Custom Menu">
 		<page title="Tabs" headline="Tab test" slug="tabs">
 			<p>You can also put in Text here like in HTML</p>
-			<tabs>
+			<tabs id="mytabs">
 				<tab title="Tab 1" id="tab1">
 					Content in Tab 1
 				</tab>
@@ -17,7 +17,7 @@
 		</page>
 		<page title="Accordions" headline="Accordion test">
 			<p>You can also put in Text here like in HTML</p>
-			<accordion>
+			<accordion id="myaccordion">
 				<section title="Section 1">
 					Content in Section 1
 				</section>

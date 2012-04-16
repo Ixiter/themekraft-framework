@@ -46,7 +46,7 @@ if( !function_exists( 'tkf_init_010' ) ){
 		$tkf_metabox_ids = array();
 		
 		$defaults = array(
-			'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete', 'jquery-linedtextarea', 'jquery-autogrow-textarea', 'jquery-sheepit' ),
+			'jqueryui_components' => array( 'jquery-cookies', 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete', 'jquery-linedtextarea', 'jquery-autogrow-textarea', 'jquery-sheepit' ),
 			'forms' => array(),
 			'text_domain' => '',
 			'text_domain_path' => '/lang'

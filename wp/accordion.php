@@ -83,7 +83,20 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 		
 			$html = '<script type="text/javascript">
 			jQuery(document).ready(function($){
-				$( ".' . $id . '" ).accordion({ header: "' . $this->title_tag . '", active: false, autoHeight: false, collapsible:true });
+					
+				var cookieName = "stickyAccordion_' . $id . '";
+				
+				$( ".' . $id . '" ).accordion({
+					header: "' . $this->title_tag . '", 
+					autoHeight: false, 
+					collapsible:true,
+					active: ( $.cookies.get( cookieName ) || 0 ),
+					change: function( e, ui )
+					{
+						$.cookies.set( cookieName, $( this ).find( "' . $this->title_tag . '" ).index ( ui.newHeader[0] ) );
+					}
+				});
+					
 			});
 	   		</script>';
 			
