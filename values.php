@@ -137,7 +137,7 @@ class TK_Values{
 				$post_id = $_GET['post'];
 			
 			if( $post_id != '' ):
-			
+				
 				// Setting up option group id for getting data
 				$option_group = $tkf_metabox_id;
 				
@@ -148,7 +148,6 @@ class TK_Values{
 				print_r( $value );
 				echo '</pre>';*/
 				
-				
 				// Getting field value			
 				if( $multi_index != '' ):
 					if( is_array( $multi_index ) ):
@@ -158,7 +157,8 @@ class TK_Values{
 						$value = $value[ $option_group ][ $name ][ $multi_index ];
 					endif;
 				else:
-					$value = $value[ $option_group ][ $name ];
+					if( isset( $value[ $option_group ] ) )
+						$value = $value[ $option_group ][ $name ];
 				endif;
 				
 			endif;
@@ -206,7 +206,7 @@ class TK_Values{
 				$post_meta = get_post_meta( $post_id, $tkf_metabox_id, TRUE );
 				
 				$post_meta[ $tkf_metabox_id ][ $this->name ] = $_REQUEST[ $tkf_metabox_id ][ $this->name ];
-				
+								
 				update_post_meta( $post_id, $tkf_metabox_id, $post_meta );
 			endif;
 			
