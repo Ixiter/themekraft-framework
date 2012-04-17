@@ -28,14 +28,17 @@ class TK_WP_Form_Select extends TK_Form_Select{
 	 */
 	function __construct( $name, $args = array() ){
 		global $post, $tk_form_instance_option_group;
-		
 		$defaults = array(
+			'option_group' => $tk_form_instance_option_group,
 			'id' => '',
-			'extra' => '',
 			'default_value' => '',
 			'size' => '',
+			'css_classes' => '',
+			'rows' => '',
+			'cols' => '',
+			'extra' => '',
 			'multiselect' => FALSE,
-			'option_group' => $tk_form_instance_option_group,
+			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
 		);
@@ -43,13 +46,29 @@ class TK_WP_Form_Select extends TK_Form_Select{
 		$parsed_args = wp_parse_args( $args, $defaults);
 		extract( $parsed_args , EXTR_SKIP );
 		
-		$field_name = tk_get_field_name( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index ) );
+		// Getting value
 		$value = tk_get_value( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index, 'default_value' => $default_value ) );
 		
-		$parsed_args['name'] = $field_name;
-		$parsed_args['value'] = $value;
+		// Putting Args to parent
+		$args = array(
+			'id' => $id,
+			'name' => $name,
+			'value' => $value,
+			'size' => $size,
+			'css_classes' => $css_classes,
+			'rows' => '',
+			'cols' => '',
+			'extra' => $extra,
+			'multiselect' => $multiselect,
+			'multi_index' => $multi_index,
+			'before_element' => $before_element,
+			'after_element' => $after_element
+		);
+		parent::__construct( $args );
 		
-		parent::__construct( $parsed_args );
+		// Rewriting Fieldname and Input Field String for WP Savings
+		$name = tk_get_field_name( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index ) );
+		$this->str_name = ' name="' . $name . '"';
 
 	}			
 }

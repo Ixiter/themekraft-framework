@@ -108,9 +108,9 @@ class TK_Form_select extends TK_Form_element{
 		// Adding options
 		$options = '';
 
-		if( count( $this->elements ) > 0 ){
+		if( count( $this->elements ) > 0 ):
 			
-			foreach( $this->elements AS $value => $element ){
+			foreach( $this->elements AS $value => $element ):
 				
 				if( !in_array( $element['id'], $tk_hidden_elements ) ):
 					
@@ -141,9 +141,9 @@ class TK_Form_select extends TK_Form_element{
 					endif;
 				endif;
 				// No else because is only option in it
-			}
+			endforeach;
 
-		}
+		endif;
 		
 		$options = apply_filters( 'tk_select_options_' . $this->id, $options, $this->id );
 
