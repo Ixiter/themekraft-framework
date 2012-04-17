@@ -1,15 +1,13 @@
 /**
  * SheepIt Jquery Plugin
- * http://www.mdelrosso.com/sheepit/
- *
- * SheepIt is donationware. If you are using it, please donate.
- * #URL_TO_DONATIONS#
+ * https://github.com/Themekraft/SheepIt
  *
  * @version
- * 1.0.0 (December 19 2010)
+ * 1.0.1 (April 17th 2012)
  * 
  * @copyright
  * Copyright (C) 2010 Mariano Del Rosso (http://www.mdelrosso.com)
+ * Further Developement by themekraft.com
  *
  * @license
  * 
@@ -947,7 +945,7 @@ jQuery.fn.sheepIt = function (options){
                 }
                 // Field not found in this form try search inside nested forms
                 else {
-                    if (form.data('nestedForms').length > 0) {
+                    if ( form.data( 'nestedForms' ) != undefined && form.data('nestedForms').length > 0) {
                         x = 0;
                         for (x in form.data('nestedForms')) {
                             
