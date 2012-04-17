@@ -2,9 +2,7 @@
 
 class TK_Form extends TK_HTML{
 	
-	var $id;
 	var $action;
-	var $name;
 	var $method;
 	
 	/**
@@ -16,8 +14,8 @@ class TK_Form extends TK_HTML{
 	 * @param string $action The action of the form
 	 * @param array $args Array of [ $method form method, $action form action ]
 	 */
-	function tk_form( $id, $args ){
-		$this->__construct( $action, $args );
+	function tk_form( $args = array() ){
+		$this->__construct( $args );
 	}
 	
 	/**
@@ -29,22 +27,29 @@ class TK_Form extends TK_HTML{
 	 * @param string $action The action of the form
 	 * @param array $args Array of [ $method form method, $action form action ]
 	 */
-	function __construct( $id, $args ){
-		parent::__construct();
-		
+	function __construct( $args = array() ){
 		$defaults = array(
+			'id' => $this->get_id(),
+			'name' => $this->get_id(),
+			'css_classes' => '',
+			'extra' => '',
+			'before_element' => '',
+			'after_element' => '',
 			'method' => 'post',
-			'action' => esc_url( $_SERVER['REQUEST_URI'] ),
-			'name' => $id
+			'action' => esc_url( $_SERVER['REQUEST_URI'] )
 		);
-		$args = wp_parse_args($args, $defaults);
-		extract( $args, EXTR_SKIP );
+		
+		$parsed_args = wp_parse_args( $args, $defaults );
+		extract( $parsed_args, EXTR_SKIP );
+		
+		parent::__construct( $id, $name, $css_classes, $extra, $before_element, $after_element );
 		
 		$this->action = $action;
 		$this->method = $method;
-		$this->name = $name;
 		
-		$this->id = $id;
+		if( $this->action != '' ) $this->str_action = ' action="' . $this->action . '"';
+		if( $this->method != '' ) $this->str_method = ' method="' . $this->method . '"';
+		
 	}
 	
 	/**
@@ -58,15 +63,8 @@ class TK_Form extends TK_HTML{
 	 */
 	function get_html(){
 		// Adding method to the form
-		$method_str = ' method="' . $this->method . '"';
-		
-		$id_str = '';
-		$name_str = '';
-		
-		if( $this->id != '' ) $id_str = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name_str = ' name="' . $this->name . '"';
-		
-		$html = '<form' . $id_str . $method_str . ' action="' . $this->action . '"' . $name_str . ' enctype="multipart/form-data">';
+		$html = $this->before_element;
+		$html.= '<form' . $this->str_id . $this->str_name . $this->str_css_classes . $this->str_method . $this->str_action . $this->extra . ' enctype="multipart/form-data">';
 		
 		$html = apply_filters( 'tk_form_start_' . $this->id, $html );
 		
@@ -80,6 +78,8 @@ class TK_Form extends TK_HTML{
 		$html = apply_filters( 'tk_form_end_' . $this->id, $html );
 				
 		$html.='</form>';
+		
+		$html.= $this->after_element;
 		
 		return $html;
 	}

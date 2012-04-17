@@ -1,7 +1,15 @@
 <?php
 class TK_HTML{
 	
+	var $id;
+	var $name;
+	var $css_classes;
 	var $elements;
+	var $before_element;
+	var $after_element;
+	
+	var $str_id;
+	var $str_name;
 	
 	/**
 	 * PHP 4 constructor
@@ -9,8 +17,8 @@ class TK_HTML{
 	 * @package Themekraft Framework
 	 * @since 0.1.0
 	 */
-	function tk_html(){
-		$this->__construct();
+	function tk_html( $id = '', $name = '' ){
+		$this->__construct( $id, $name );
 	}
 	
 	/**
@@ -19,8 +27,42 @@ class TK_HTML{
 	 * @package Themekraft Framework
 	 * @since 0.1.0
 	 */
-	function __construct(){
+	function __construct( $id = '', $name = '', $css_classes = '', $extra = '', $before_element = '', $after_element = '' ){
+		$this->id = $id;
+		$this->name = $name;
+		$this->css_classes = $css_classes;
 		$this->elements = array();
+		$this->extra = $extra;
+		$this->before_element = $before_element;
+		$this->after_element = $after_element;
+		
+		if( $this->id != '' ) $this->str_id = ' id="' . $this->id . '"';
+		if( $this->name != '' ) $this->str_name = ' name="' . $this->name . '"';
+		if( $this->css_classes != '' ) $this->str_css_classes = ' class="' . $this->css_classes . '"';
+	}
+	
+	/**
+	 * Returns the id for a element
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 */
+	function get_id(){
+		global $tkf_element_nr;
+		
+		if( $this->id == '' ):
+			// Getting the element number
+			if( !isset( $tkf_element_nr ) ):
+				$tkf_element_nr = 0;
+			else:
+				$tkf_element_nr++;
+			endif;
+			
+			return 'tkf_element_id_' . $tkf_element_nr;
+			
+		else:
+			return $this->id;
+		endif;
 	}
 	
 	/**
@@ -46,11 +88,15 @@ class TK_HTML{
 	 * 
 	 */
 	function get_html(){
+		
+		$html = $this->before_element;
 		if( count( $this->elements ) > 0 ){
 			foreach( $this->elements AS $element ){
 				$html.= $element;
 			}
 		}
+		$html.= $this->after_element;
+		
 		return $html;
 	}
 	

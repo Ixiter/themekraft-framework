@@ -1,10 +1,6 @@
 <?php
 
 class TK_Form_Textfield extends TK_Form_Element{
-	var $extra;
-	var $before_element;
-	var $after_element;
-	var $field_name_set;
 	
 	/**
 	 * PHP 4 constructor
@@ -14,7 +10,7 @@ class TK_Form_Textfield extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $extra Extra textfield code ]
 	 */
-	function tk_form_textfield( $args ){
+	function tk_form_textfield( $args = array() ){
 		$this->__construct( $args );		
 	}
 	
@@ -26,31 +22,33 @@ class TK_Form_Textfield extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $extra Extra textfield code ]
 	 */
-	function __construct( $args ){
+	function __construct( $args = array() ){
 		$defaults = array(
-			'id' => '',
-			'name' => '',
+			'id' => $this->get_id(),
+			'name' => $this->get_id(),
 			'value' => '',
+			'css_classes' => '',
 			'extra' => '',
-			'multi_index' => '',
+			'multi_index' => FALSE,
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
-		$this->field_name_set = FALSE;
-		
-		$parsed_args = wp_parse_args($args, $defaults);
+		$parsed_args = wp_parse_args( $args, $defaults );
 		extract( $parsed_args , EXTR_SKIP );
 		
+		// Putting Args to parent
+		$args = array(
+			'id' => $id,
+			'name' => $name,
+			'css_classes' => $css_classes,
+			'value' => $value,
+			'extra' => $extra,
+			'multi_index' => $multi_index,
+			'before_element' => $before_element,
+			'after_element' => $after_element
+		);
 		parent::__construct( $args );
-		
-		$this->id = $id;
-		$this->extra = $extra;
-		
-		$this->multi_index = $multi_index;
-		
-		$this->before_element = $before_element;
-		$this->after_element = $after_element;		
 	}
 	
 	/**
@@ -63,28 +61,16 @@ class TK_Form_Textfield extends TK_Form_Element{
 	 */
 	function get_html(){
 		
-		$id = '';
-		$name = '';
-		$value = '';
-		$extra = '';
-		
-		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
-		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
-		if( $this->extra != '' ) $extra = $this->extra;
-		
 		$html = $this->before_element;
-		
-		$html.= '<input' . $id . $name . $value . $extra . ' type="text" />';
-		
+		$html.= '<input' . $this->str_id . $this->str_name. $this->str_value . $this->str_css_classes . $this->extra . ' type="text" />';
 		$html.= $this->after_element;
 		
 		return $html;
 	}
 }
 
-function tk_textfield( $args, $return_object = FALSE ){
-	$textfield = new TK_Form_Textfield( $args );
+function tk_textfield( $name, $args = array(), $return_object = FALSE ){
+	$textfield = new TK_Form_Textfield( $name, $args );
 
 	if( TRUE == $return_object ){
 		return $textfield;
