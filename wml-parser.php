@@ -42,7 +42,7 @@ class TK_WML_Parser{
 		$bound_content['menu'] = 'page';
 
 		// Posts
-		$functions['metabox'] = array( 'id' => '', 'title' => '', 'content' => '' , 'post_type' => '', 'return_object' => $return_object );
+		$functions['metabox'] = array( 'id' => '', 'title' => '', 'content' => '' , 'post_type' => '', 'context' => '', 'return_object' => $return_object );
 		
 		// Tabs
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
@@ -317,8 +317,8 @@ function tk_db_page( $id, $title, $content, $headline = '', $menu_slug = '' , $i
  * Post functions
  */
 
-function tk_db_metabox( $id, $title, $content, $post_type ){
-	return tk_wp_metabox( $id, $title, $content, $post_type );
+function tk_db_metabox( $id, $title, $content, $post_type, $context, $return_object = TRUE ){
+	return tk_wp_metabox( $id, $title, $content, $post_type, $context, $return_object );
 }
 
 /*
