@@ -1,10 +1,8 @@
 <?php
 
 class TK_Form_Button extends TK_Form_Element{
-	var $extra;
+
 	var $submit;
-	var $before_element;
-	var $after_element;	
 	
 	/**
 	 * PHP 4 constructor
@@ -70,9 +68,9 @@ class TK_Form_Button extends TK_Form_Element{
 
 		$html = $this->before_element;
 		if( $this->submit ){
-			$html.= '<input type="submit"' . $this->str_id . $this->str_name . $this->str_value . $this->css_classes . $this->str_extra . ' />';
+			$html.= '<input type="submit"' . $this->str_id . $this->str_name . $this->str_value . $this->str_css_classes . $this->extra . ' />';
 		}else{
-			$html.= '<input type="button"' . $this->str_id . $this->str_name . $this->str_value . $this->css_classes . $this->str_extra . ' />';
+			$html.= '<input type="button"' . $this->str_id . $this->str_name . $this->str_value . $this->str_css_classes . $this->extra . ' />';
 		}
 		$html.= $this->after_element;
 		

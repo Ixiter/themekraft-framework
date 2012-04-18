@@ -31,11 +31,11 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		
 		$defaults = array(
 			'option_group' => $tk_form_instance_option_group,
-			'id' => '',
+			'id' => $this->get_id(),
 			'default_value' => '',
 			'css_classes' => '',
 			'extra' => '',
-			'multi_index' => '',
+			'multi_index' => FALSE,
 			'before_element' => '',
 			'after_element' => ''
 		);

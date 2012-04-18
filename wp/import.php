@@ -1,6 +1,10 @@
 <?php
 
 class TK_Import_Button extends TK_WP_Fileuploader{
+	
+	var $done_import;
+	var $wp_name;
+	
 	/**
 	 * PHP 4 constructor
 	 *
@@ -10,8 +14,8 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 	 * @param string $name Name of colorfield
 	 * @param array $args 
 	 */
-	function tk_import_button( $name, $args = array() ){
-		$this->__construct( $name, $args );
+	function tk_import_button( $value, $args = array() ){
+		$this->__construct( $value, $args );
 	}
 	
 	/**
@@ -23,31 +27,44 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 	 * @param string $name Name of colorfield
 	 * @param array $args Array of [ $id , $extra Extra colorfield code, option_groupOption group to save data, $before_textfield Code before colorfield, $after_textfield Code after colorfield   ]
 	 */
-	function __construct( $name, $args = array() ){
+	function __construct( $value, $args = array() ){
 		global $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
-			'id' => substr( md5 ( time() * rand() ), 0, 10 ),
+			'option_group' => $tk_form_instance_option_group,
+			'id' => $this->get_id(),
+			'name' => $this->get_id(),
+			'css_classes' => '',
 			'extra' => '',
-			'before_element' => '',
 			'uploader' => 'file',
-			'after_element' => '',
-			'option_group' => $tk_form_instance_option_group
+			'multi_index' => '',
+			'before_element' => '',
+			'after_element' => ''
 		);
-		
-		// Adding file actions
-		// add_filter( 'sanitize_option_' . $tk_form_instance_option_group . '_values', array( $this , 'validate_actions' ), 9999 );
 		
 		$parsed_args = wp_parse_args( $args, $defaults );
 		extract( $parsed_args , EXTR_SKIP );
 		
-		$this->id = $id;
-		$this->delete = TRUE;
-		$this->insert_attachement = FALSE;
+		// Putting Args to parent
+		$args = array(
+			'option_group' => $option_group,
+			'id' => $id,
+			'name' => $name,
+			'value' => $value,
+			'css_classes' => $css_classes,
+			'submit' => TRUE,
+			'extra' => $extra,
+			'uploader' => 'wp', // wp or file
+			'multi_index' => $multi_index,
+			'before_element' => $before_element,
+			'after_element' => $after_element,
+			'insert_as_attachement' => FALSE,
+			'delete' => TRUE
+		);
+		parent::__construct( $value, $args );
 		
 		$this->done_import = FALSE;
-		
-		parent::__construct( $name, $parsed_args );
+		$this->wp_name = $name;
 	}
 	
 	function validate_actions( $input ){
@@ -66,7 +83,6 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 	}
 
 	function get_html(){
-
 		$import_button = tk_form_button( __( 'Import settings', 'tkf' ), array( 'name' => 'import_settings' ) ); 
 		$this->after_element = $import_button . $this->after_element;
 		$html = parent::get_html();
