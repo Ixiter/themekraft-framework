@@ -31,7 +31,6 @@ class TK_HTML{
 		$this->id = $id;
 		$this->name = $name;
 		$this->css_classes = $css_classes;
-		$this->elements = array();
 		$this->extra = $extra;
 		$this->before_element = $before_element;
 		$this->after_element = $after_element;
@@ -39,6 +38,8 @@ class TK_HTML{
 		if( $this->id != '' ) $this->str_id = ' id="' . $this->id . '"';
 		if( $this->name != '' ) $this->str_name = ' name="' . $this->name . '"';
 		if( $this->css_classes != '' ) $this->str_css_classes = ' class="' . $this->css_classes . '"';
+		
+		$this->elements = array();
 	}
 	
 	/**
