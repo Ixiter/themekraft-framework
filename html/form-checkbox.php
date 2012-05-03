@@ -1,10 +1,8 @@
 <?php
 
 class TK_Form_Checkbox extends TK_Form_Element{
-	var $extra;
+
 	var $checked;
-	var $before_element;
-	var $after_element;	
 	
 	/**
 	 * PHP 4 constructor
@@ -14,7 +12,7 @@ class TK_Form_Checkbox extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $checked Checked value, $extra Extra checkbox code   ]
 	 */
-	function tk_form_checkbox( $args ){
+	function tk_form_checkbox( $args = array() ){
 		$this->__construct( $args );
 	}
 	
@@ -26,26 +24,37 @@ class TK_Form_Checkbox extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $checked Checked value, $extra Extra checkbox code   ]
 	 */
-	function __construct( $args ){
+	function __construct( $args = array() ){
 		$defaults = array(
 			'id' => '',
 			'name' => '',
 			'value' => '',
-			'checked' => false,
+			'checked' => FALSE,
+			'css_classes' => '',
 			'extra' => '',
+			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
-		$args = wp_parse_args($args, $defaults);
-		extract( $args , EXTR_SKIP );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		extract( $parsed_args , EXTR_SKIP );
 		
-		parent::__construct( $args );
+		// Putting Args to parent
+		$args = array(
+			'id' => $id,
+			'name' => $name,
+			'value' => $value,
+			'css_classes' => $css_classes,
+			'extra' => $extra,
+			'multi_index' => $multi_index,
+			'before_element' => $before_element,
+			'after_element' => $after_element
+		);
+		parent::__construct( $parsed_args );
 		
-		$this->extra = $extra;
 		$this->checked = $checked;
-		$this->before_element = $before_element;
-		$this->after_element = $after_element;
+		if( $this->checked == TRUE ) $this->str_checked = ' checked';
 	}
 	
 	/**
@@ -57,14 +66,9 @@ class TK_Form_Checkbox extends TK_Form_Element{
 	 * @return string $html The HTML of checkbox
 	 */
 	function get_html(){
-		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
-		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
-		if( $this->extra != '' ) $extra = $this->extra;
-		if( $this->checked == true ) $checked = ' checked';
 		
 		$html = $this->before_element;
-		$html.= '<input type="checkbox" ' . $id . $name . $value . $extra . $checked . ' />';
+		$html.= '<input type="checkbox" ' . $this->str_id . $this->str_name . $this->str_value . $this->str_extra . $this->str_checked . ' />';
 		$html.= $this->after_element;
 		
 		return $html;

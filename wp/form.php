@@ -13,8 +13,8 @@ class TK_WP_Form extends TK_Form{
 	 * @param string $option_group The name of the option group
 	 * @param string $id The id of the form
 	 */
-	function tk_wp_form( $id, $option_group ){
-		$this->__construct( $id, $option_group );
+	function tk_wp_form( $option_group, $args = array() ){
+		$this->__construct( $option_group, $args );
 	}
 	
 	/**
@@ -26,12 +26,31 @@ class TK_WP_Form extends TK_Form{
 	 * @param string $option_group The name of the option group
 	 * @param string $id The id of the form
 	 */
-	function __construct( $id, $option_group ){
-		$args['method'] = 'POST';
-		$args['action'] = 'options.php';
-		$args['name'] = $id;
+	function __construct( $option_group, $args = array() ){
+		$defaults = array(
+			'id' => $this->get_id(),
+			'name' => $this->get_id(),
+			'css_classes' => '',
+			'extra' => '',
+			'before_element' => '',
+			'after_element' => '',
+		);
 		
-		parent::__construct( $id, $args );
+		$args = wp_parse_args($args, $defaults);
+		extract( $args , EXTR_SKIP );
+		
+		$args = array(
+			'id' => $id,
+			'name' => $name,
+			'css_classes' => '',
+			'extra' => '',
+			'before_element' => '',
+			'after_element' => '',
+			'method' => 'POST',
+			'action' => 'options.php'
+		);
+		
+		parent::__construct( $args );
 		
 		$this->option_group = $option_group; 
 	}
@@ -60,11 +79,11 @@ class TK_WP_Form extends TK_Form{
 		return $html;
 	}
 }
-function tk_form( $id, $option_group, $content, $return_object = FALSE ){
+function tk_form( $option_group, $content, $args = array(), $return_object = FALSE ){
 	global $tk_form_instance_option_group;
 	$tk_form_instance_option_group = $option_group;
 	
-	$form = new TK_WP_Form( $id, $option_group );
+	$form = new TK_WP_Form( $option_group, $args );
 	$form->add_element( $content );
 	
 	if( TRUE == $return_object ){
@@ -92,7 +111,7 @@ function tk_form_end( $output = true ){
 	global $tk_form_instance_option_group, $tk_form_instance_id, $tk_form_instance_buffer, $tk_form_instance_content;
 	ob_end_flush();	
 	
-	$form = new TK_WP_Form( $tk_form_instance_option_group, $tk_form_instance_id );
+	$form = new TK_WP_Form( $tk_form_instance_option_group, array( 'id' => $tk_form_instance_id ) );
 	
 	if( $tk_form_instance_content != '' ){
 		$form->add_element( $tk_form_instance_content );

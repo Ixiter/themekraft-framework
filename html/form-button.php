@@ -1,10 +1,8 @@
 <?php
 
 class TK_Form_Button extends TK_Form_Element{
-	var $extra;
+
 	var $submit;
-	var $before_element;
-	var $after_element;	
 	
 	/**
 	 * PHP 4 constructor
@@ -14,8 +12,8 @@ class TK_Form_Button extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $submit use submit, $extra Extra checkbox code   ]
 	 */
-	function tk_form_button( $value, $args = array() ){
-		$this->__construct( $value, $args );
+	function tk_form_button( $args = array() ){
+		$this->__construct( $args );
 	}
 	
 	/**
@@ -26,28 +24,36 @@ class TK_Form_Button extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $submit use submit, $extra Extra checkbox code   ]
 	 */
-	function __construct( $value, $args = array() ){
+	function __construct( $args = array() ){
 		$defaults = array(
 			'id' => '',
 			'name' => '',
-			'submit' => true,
+			'value' => '',
+			'css_classes' => '',
+			'submit' => TRUE,
 			'extra' => '',
+			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
-		$args = wp_parse_args($args, $defaults);
-		extract( $args , EXTR_SKIP );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		extract( $parsed_args , EXTR_SKIP );
 		
-		$args['name'] = $name;	
-		$args['value'] = $value;	
+		// Putting Args to parent
+		$args = array(
+			'id' => $id,
+			'name' => $name,
+			'value' => $value,
+			'css_classes' => $css_classes,
+			'extra' => $extra,
+			'multi_index' => $multi_index,
+			'before_element' => $before_element,
+			'after_element' => $after_element
+		);
 		parent::__construct( $args );
 		
 		$this->submit = $submit;
-		$this->extra = $extra;
-		
-		$this->before_element = $before_element;
-		$this->after_element = $after_element;	
 	}
 	
 	/**
@@ -59,21 +65,12 @@ class TK_Form_Button extends TK_Form_Element{
 	 * @return string $html The HTML of button
 	 */
 	function get_html(){
-		$id = '';
-		$name = '';
-		$value = '';
-		$extra = '';
-		
-		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
-		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
-		if( $this->extra != '' ) $extra = $this->extra;
-		
+
 		$html = $this->before_element;
 		if( $this->submit ){
-			$html.= '<input type="submit"' . $id . $name . $value . $extra . ' />';
+			$html.= '<input type="submit"' . $this->str_id . $this->str_name . $this->str_value . $this->str_css_classes . $this->extra . ' />';
 		}else{
-			$html.= '<input type="button"' . $id . $name . $value . $extra . ' />';
+			$html.= '<input type="button"' . $this->str_id . $this->str_name . $this->str_value . $this->str_css_classes . $this->extra . ' />';
 		}
 		$html.= $this->after_element;
 		
@@ -81,8 +78,8 @@ class TK_Form_Button extends TK_Form_Element{
 	}
 }
 
-function tk_button( $value, $args = array(), $return_object = FALSE ){
-	$button = new TK_Form_Button( $value, $args );
+function tk_button( $args = array(), $return_object = FALSE ){
+	$button = new TK_Form_Button( $args );
 	
 	if( TRUE == $return_object ){
 		return $button;

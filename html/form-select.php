@@ -2,11 +2,8 @@
 
 class TK_Form_select extends TK_Form_element{
 	
-	var $extra;
 	var $elements;
 	var $size;
-	var $before_element;
-	var $after_element;
 	
 	/**
 	 * PHP 4 constructor
@@ -16,7 +13,7 @@ class TK_Form_select extends TK_Form_element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $extra Extra selectfield code ]
 	 */
-	function tk_form_select( $args ){
+	function tk_form_select( $args = array() ){
 		$this->__construct( $args );
 	}
 	
@@ -28,27 +25,40 @@ class TK_Form_select extends TK_Form_element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $extra Extra selectfield code ]
 	 */
-	function __construct( $args ){
+	function __construct( $args = array() ){
 		$defaults = array(
-			'id' => '',
-			'name' => '',
+			'id' => $this->get_id(),
+			'name' => $this->get_id(),
 			'value' => '',
 			'size' => '',
-			'multiselect' => FALSE,
-			'extra' => ''
+			'css_classes' => '',
+			'extra' => '',
+			'multi_index' => FALSE,
+			'multi_select' => FALSE,
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
-		$args = wp_parse_args($args, $defaults);
-		extract( $args , EXTR_SKIP );
+		$parsed_args = wp_parse_args($args, $defaults);
+		extract( $parsed_args , EXTR_SKIP );
 		
+		// Putting Args to parent
+		$args = array(
+			'id' => $id,
+			'name' => $name,
+			'value' => $value,
+			'css_classes' => $css_classes,
+			'extra' => $extra,
+			'multi_index' => $multi_index,
+			'before_element' => $before_element,
+			'after_element' => $after_element
+		);
 		parent::__construct( $args );
 		
-		$this->size = $size;		
-		$this->elements = array();
-		$this->multiselect = $multiselect;
-		$this->extra = $extra;
-		$this->before_element = $before_element;
-		$this->after_element = $after_element;
+		$this->size = $size;	
+		$this->multi_select = $multi_select;	
+		
+		if( $this->size != '' ) $this->str_size = ' size="' . $this->size . '"';		
 	}
 	
 	/**
@@ -86,42 +96,23 @@ class TK_Form_select extends TK_Form_element{
 		
 		// Merging values
 		$this->merge_option_elements();
-		
-		// Setting up parameters
-		$id_string = '';
-		$name_string = '';
-		$size_string = '';
-		$extra_string = '';
-		
-		if( $this->id != '' ) $id_string = ' id="' . $this->id . '"';
-		
-		if( $this->size != '' ) $size_string = ' size="' . $this->size . '"';		
-		if( $this->extra != '' ) $extra_string = $this->extra;
-		
+			
 		if( $this->multiselect ):
-			if( $this->name != '' ) $name_string = ' name="' . $this->name . '[]"';
+			if( $this->name != '' ) $this->str_name = ' name="' . $this->name . '[]"';
 			$multiselect_string = ' multiple="multiple"';
 		else:
-			if( $this->name != '' ) $name_string = ' name="' . $this->name . '"';
-		endif;
 		
 		$html = $this->before_element;
-		$html.= '<select' . $id_string . $name_string . $size_string . $multiselect_string . $extra_string . '>';
+		$html.= '<select' . $this->str_id . $this->str_name . $this->str_size . $this->str_css_classes . $multiselect_string . $this->extra . '>';
 		
 		// Adding options
 		$options = '';
 
-		if( count( $this->elements ) > 0 ){
+		if( count( $this->elements ) > 0 ):
 			
-			foreach( $this->elements AS $value => $element ){
+			foreach( $this->elements AS $value => $element ):
 				
 				if( !in_array( $element['id'], $tk_hidden_elements ) ):
-					
-					/*
-					echo '<pre>';
-					print_r( $element );
-					echo '</pre>';
-					 */
 					
 					$option_name = $element['option_name'];
 					$value_string = ' value="' . $value . '"';
@@ -150,9 +141,9 @@ class TK_Form_select extends TK_Form_element{
 					endif;
 				endif;
 				// No else because is only option in it
-			}
+			endforeach;
 
-		}
+		endif;
 		
 		$options = apply_filters( 'tk_select_options_' . $this->id, $options, $this->id );
 
@@ -183,7 +174,6 @@ class TK_Form_select extends TK_Form_element{
 		}
 
 	}
-	// $element = array( 'option_name' => $option_name, 'extra' => $extra );
 }
 
 function tk_select_add_option( $select_id, $value, $option_name = '', $extra = '' ){
