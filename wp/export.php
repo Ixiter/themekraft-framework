@@ -26,37 +26,25 @@ class TK_Export_Button extends TK_WP_Form_Button{
 		global $tk_form_instance_option_group;
 		
 		$defaults = array(
-			'id' => $this->get_id(),
-			'name' => $this->get_id(),
-			'css_classes' => '',
+			'id' => '',
+			'name' => $value,
 			'forms' => array(),
 			'file_name' => 'export_' . date( 'Ymdhis', time() ) . '.txt',
 			'extra' => '',
-			'multi_index' => FALSE,
 			'before_element' => '',
 			'after_element' => ''
 		);
 		
 		add_filter( 'sanitize_option_' . $tk_form_instance_option_group . '_values', array( $this , 'validate_actions' ), 9999 );
 		
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
 		
-		// Putting Args to parent
-		$args = array(
-			'id' => $id,
-			'name' => $name,
-			'value' => $value,
-			'css_classes' => $css_classes,
-			'submit' => TRUE,
-			'extra' => $extra,
-			'multi_index' => $multi_index,
-			'before_element' => $before_element,
-			'after_element' => $after_element
-		);
 		parent::__construct( $value, $args );
 		
 		$this->lookup_name = $name;
+		
+		$this->submit = TRUE;
 		$this->forms = $forms;
 		$this->file_name = $file_name;
 		$this->extra = $extra;

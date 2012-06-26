@@ -1,13 +1,15 @@
 /**
  * SheepIt Jquery Plugin
- * https://github.com/Themekraft/SheepIt
+ * http://www.mdelrosso.com/sheepit/
+ *
+ * SheepIt is donationware. If you are using it, please donate.
+ * #URL_TO_DONATIONS#
  *
  * @version
- * 1.0.1 (April 17th 2012)
+ * 1.0.0 (December 19 2010)
  * 
  * @copyright
  * Copyright (C) 2010 Mariano Del Rosso (http://www.mdelrosso.com)
- * Further Developement by themekraft.com
  *
  * @license
  * 
@@ -256,7 +258,7 @@ jQuery.fn.sheepIt = function (options){
             normalizeLabelsForForm(form, getIndex());
 
             // Normalize other possibles indexes inside html
-            if (form.html().indexOf(options.indexFormat) != -1) {
+            if ( form.html() != null && form.html().indexOf(options.indexFormat) != -1 ) {
                 // Create a javascript regular expression object
                 var re = new RegExp(options.indexFormat,"ig");
                 // Replace all index occurrences inside the html
@@ -325,7 +327,6 @@ jQuery.fn.sheepIt = function (options){
 
                 removeCurrentBtn.click(clickOnRemoveCurrent);
                 removeCurrentBtn.data('removableClone', newForm);
-                
                 
                 // Index
                 newForm.data('formIndex', getIndex());
@@ -868,7 +869,7 @@ jQuery.fn.sheepIt = function (options){
 
             // For each element, try to get the correct field or fields
             $.each(data, function(index, value){
-                
+            	
                 var formId = source.attr('id');
                 var formIndex = form.data('formIndex');
 
@@ -888,6 +889,42 @@ jQuery.fn.sheepIt = function (options){
                 
                 // Search by id
                 var field = form.find(':input[id="' + index + '"]');
+                
+				// Search by id
+                if (field.length == 0) {
+
+                    // Search by id
+                    field = form.find('textarea[id="' + index + '"]');
+
+                    if( field.length == 0 )
+                    {
+                        // Search by name
+                        field = form.find('textarea[name="' + index + '"]');
+
+                        if (field.length == 0) {
+                            // Search by name array format
+                            field = form.find('textarea[name="' + index + '[]"]');
+                        }
+                    }
+                }
+
+                // Search by id
+                if (field.length == 0) {
+
+                    // Search by id
+                    field = form.find('select[id="' + index + '"]');
+
+                    if( field.length == 0 )
+                    {
+                        // Search by name
+                        field = form.find('select[name="' + index + '"]');
+
+                        if (field.length == 0) {
+                            // Search by name array format
+                            field = form.find('select[name="' + index + '[]"]');
+                        }
+                    }
+                }
 
                 // Search by name
                 if (field.length == 0) {
@@ -900,6 +937,8 @@ jQuery.fn.sheepIt = function (options){
                         field = form.find(':input[name="' + index + '[]"]');
                     } 
                 }
+                
+                //alert( value + ' - ' + field.length + ' - ' + index + ' - ' + formIndex );
 
                 // Field was found
                 if (field.length > 0) {
@@ -964,8 +1003,17 @@ jQuery.fn.sheepIt = function (options){
 
         function fillFormField(field, value)
         {
-            var type = field.attr('type');
-
+ 			var type;
+ 			
+            if( $( field ).is( 'textarea' ) )
+                type = "textarea";
+            else if( $( field ).is( 'select' ) )
+            {
+                type = "select" + (($( field ).attr( "multiple" ) == "yes") ? ("-multiple") : ("-one") );
+            }
+            else
+                type = field.attr( 'type' );
+                
             // hidden, text, password
             if (type == 'text' || type == 'hidden' || type == 'password') {
                 field.attr('value', value);
@@ -978,7 +1026,11 @@ jQuery.fn.sheepIt = function (options){
             }
             // checkbox, radio button
             else if(type == 'checkbox' || type == 'radio') {
-                field.attr("checked", "checked");
+            	if( value != '' && type == 'checkbox' ){
+                	field.attr("checked", "checked");
+                }else if( type != 'checkbox' ){
+                	field.attr("checked", "checked");
+                }
                 return true;
             }
             // select-one, select-multiple

@@ -97,7 +97,7 @@ class TK_Values{
 					$field_name .= '[' . $index . ']';
 				endforeach;
 				
-			elseif ( $multi_index != '' ):
+			elseif ( $multi_index != '' || is_int($multi_index) ):
 				$field_name = $option_group . '_values[' . $name . '][' . $multi_index . ']';	
 			else:
 				$field_name = $option_group . '_values[' . $name . ']';
@@ -149,7 +149,7 @@ class TK_Values{
 				echo '</pre>';*/
 				
 				// Getting field value			
-				if( $multi_index != '' ):
+				if( $multi_index != '' || is_int($multi_index) ):
 					if( is_array( $multi_index ) ):
 						// Getting values of multiindex array
 						$value = $this->get_multiindex_value( $value[ $option_group ][ $name ], $multi_index );
@@ -170,7 +170,7 @@ class TK_Values{
 			$value = get_option( $option_group  . '_values' );
 					
 			// Setting up value
-			if( $multi_index != '' ):
+			if( $multi_index != '' || is_int($multi_index) ):
 				if( is_array( $multi_index ) ):
 					// Getting values of multiindex array
 					$value = $this->get_multiindex_value( $value[ $name ], $multi_index );
@@ -230,6 +230,11 @@ function tk_decrypt_string( $string ){
 function tk_get_values( $option_group ){
 	$val = new TK_Values( $option_group );
 	return $val->get_values();
+}
+
+function tk_get_post_values( $metabox_id ){
+	global $post;
+	return get_post_meta( $post->ID, $metabox_id, TRUE );
 }
 
 function tk_set_values( $option_group, $values ){

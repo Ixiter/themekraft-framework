@@ -8,11 +8,11 @@ class TK_WP_Metabox extends TK_HTML{
 	var $post_type;
 	
 	
-	function tk_wp_metabox( $id, $title, $content, $post_type = 'post', $context = 'normal' ){
+	function tk_wp_metabox( $id, $title, $content, $post_type = 'post' ){
 		$this->__construct( $id, $title, $content, $post_type );		
 	}
 	
-	function __construct( $id, $title, $content, $post_type = 'post', $context = 'normal' ){
+	function __construct( $id, $title, $content, $post_type = 'post' ){
 		global $tkf_metabox_ids, $tkf_metabox_id;
 		
 		parent::__construct();
@@ -21,7 +21,6 @@ class TK_WP_Metabox extends TK_HTML{
 		$this->title = $title;
 		$this->post_type = $post_type;
 		$this->content = $content;
-		$this->context = $context;
 		
 		$tkf_metabox_id = $id;
 		
@@ -42,13 +41,13 @@ class TK_WP_Metabox extends TK_HTML{
 	}
 	
 	function create(){
-		add_meta_box( $this->id, $this->title, array( $this, 'write_html' ) , $this->post_type, $this->context );
+		add_meta_box( $this->id, $this->title, array( $this, 'write_html' ) , $this->post_type );
 	}
 	
 }
 
-function tk_wp_metabox( $id, $title, $content, $post_type = 'post', $context = 'normal', $return_object = FALSE ){
-	$metabox = new TK_WP_Metabox( $id, $title, $content, $post_type, $context );
+function tk_wp_metabox( $id, $title, $content, $post_type = 'post', $return_object = FALSE ){
+	$metabox = new TK_WP_Metabox( $id, $title, $content, $post_type );
 	
 	if( TRUE == $return_object ){
 		return $metabox;
