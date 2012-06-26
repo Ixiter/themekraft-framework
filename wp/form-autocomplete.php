@@ -3,61 +3,13 @@
 class TK_Jqueryui_Autocomplete extends TK_WP_Form_Textfield{
 	
 	var $autocomplete_values;
-	var $delete_values;
 	
-	/**
-	 * PHP 4 constructor
-	 *
-	 * @package Themekraft Framework
-	 * @since 0.1.0
-	 * 
-	 * @param string $name Name of autocomplete field
-	 * @param array $args Array of [ $id , $extra Extra colorfield code, option_groupOption group to save data, $before_textfield Code before colorfield, $after_textfield Code after colorfield   ]
-	 */
 	function tk_jqueryui_autocomplete( $name, $args = array() ){
 		$this->__construct( $name, $args );
 	}
 	
-	/**
-	 * PHP 5 constructor
-	 *
-	 * @package Themekraft Framework
-	 * @since 0.1.0
-	 * 
-	 * @param string $name Name of autocomplete field
-	 * @param array $args Array of [ $id , $extra Extra colorfield code, option_groupOption group to save data, $before_textfield Code before colorfield, $after_textfield Code after colorfield   ]
-	 */
 	function __construct( $name, $args = array() ){
-		global $post, $tk_form_instance_option_group;
-		
-		$defaults = array(
-			'option_group' => $tk_form_instance_option_group,
-			'id' => $this->get_id(),
-			'default_value' => '',
-			'css_classes' => '',
-			'extra' => '',
-			'multi_index' => FALSE,
-			'before_element' => '',
-			'after_element' => ''
-		);
-		
-		$parsed_args = wp_parse_args( $args, $defaults );
-		extract( $parsed_args , EXTR_SKIP );	
-		
-		// Putting Args to parent
-		$args = array(
-			'option_group' => $option_group,	
-			'id' => $id,
-			'name' => $name,
-			'css_classes' => $css_classes,
-			'value' => $value,
-			'extra' => $extra,
-			'multi_index' => $multi_index,
-			'before_element' => $before_element,
-			'after_element' => $after_element
-		);
 		parent::__construct( $name, $args );
-		
 		$this->autocomplete_values = array();
 		$this->delete_values = array();
 	}
@@ -75,6 +27,7 @@ class TK_Jqueryui_Autocomplete extends TK_WP_Form_Textfield{
 	}
 	
 	function get_html(){
+		
 		$this->merge_autocomplete_elements();
 		
 		$html = parent::get_html();

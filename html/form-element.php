@@ -1,9 +1,10 @@
 <?php
 
-class TK_Form_Element extends TK_HTML{
+class TK_Form_Element{
 	
+	var $id;
+	var $name;
 	var $value;
-	var $multi_index;
 	
 	/**
 	 * PHP 4 constructor
@@ -13,7 +14,7 @@ class TK_Form_Element extends TK_HTML{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value ]
 	 */
-	function tk_form_element( $args = array() ){
+	function tk_form_element( $args ){
 		$this->__construct( $args );
 	}
 	
@@ -25,37 +26,36 @@ class TK_Form_Element extends TK_HTML{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value ]
 	 */
-	function __construct( $args = array() ){
+	function __construct( $args ){
 		
 		$defaults = array(
-			'id' => $this->get_id(),
-			'name' => $this->get_id(),
-			'css_classes' => '',
-			'value' => '',
-			'extra' => '',
-			'multi_index' => FALSE,
-			'before_element' => '',
-			'after_element' => ''
+			'id' => '',
+			'name' => '',
+			'value' => ''
 		);
+		extract( wp_parse_args($args, $defaults), EXTR_SKIP );
 		
-		extract( wp_parse_args( $args, $defaults ), EXTR_SKIP );
-		
-		parent::__construct( $id, $name, $css_classes, $extra, $before_element, $after_element );
-		
+		$this->id = $id;
+		$this->name = $name;
 		$this->value = $value;
-		$this->multi_index = $multi_index;
-		
-		// Creating form lement name with Multiindex
-		if( $multi_index != '' && $multi_index != FALSE ):
-			if( is_array( $multi_index ) ):
-				foreach( $multi_index AS $index ):
-					$this->name.= '[' . $index . ']';
- 				endforeach;
-			else:
-				$this->name.= '[' . $multi_index . ']';
-			endif;
-		endif;
-				
-		if( $this->value != '' ) $this->str_value = ' value="' . $this->value . '"';
+	}
+	
+	/**
+	 * Getting content ( empty function )
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 */
+	function get_html(){
+	}
+	
+	/**
+	 * Echo content
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 */
+	function write_html(){
+		echo $this->get_html();		
 	}
 }

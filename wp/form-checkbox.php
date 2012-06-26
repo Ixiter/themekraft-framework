@@ -30,11 +30,10 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 		global $tk_hidden_elements, $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
-			'option_group' => $tk_form_instance_option_group,
 			'id' => '',
-			'default_value' => '',
-			'css_classes' => '',
+			'value' => '',
 			'extra' => '',
+			'option_group' => $tk_form_instance_option_group,
 			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
@@ -52,23 +51,11 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 			$checked = TRUE;
 		}
 		
-		// Putting Args to parent
-		$args = array(
-			'id' => $id,
-			'name' => $name,
-			'value' => $value,
-			'checked' => $checked,
-			'css_classes' => $css_classes,
-			'extra' => $extra,
-			'multi_index' => $multi_index,
-			'before_element' => $before_element,
-			'after_element' => $after_element
-		);
-		parent::__construct( $args );
+		$args['name'] = $field_name;
+		$args['checked'] = $checked;
 		
-		// Rewriting Fieldname and Input Field String for WP Savings
-		$name = tk_get_field_name( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index ) );
-		$this->str_name = ' name="' . $name . '"';
+		parent::__construct( $args );
+
 	}		
 }
 function tk_form_checkbox( $name, $args = array(), $return_object = FALSE ){

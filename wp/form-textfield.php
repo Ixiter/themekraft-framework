@@ -30,12 +30,11 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		global $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
-			'option_group' => $tk_form_instance_option_group,
-			'id' => $this->get_id(),
-			'default_value' => '',
-			'css_classes' => '',
+			'id' => '',
 			'extra' => '',
-			'multi_index' => FALSE,
+			'default_value' => '',
+			'option_group' => $tk_form_instance_option_group,
+			'multi_index' => '',
 			'before_element' => '',
 			'after_element' => ''
 		);
@@ -43,28 +42,17 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		$parsed_args = wp_parse_args( $args, $defaults );
 		extract( $parsed_args , EXTR_SKIP );
 		
-		// Getting value
+		$field_name = tk_get_field_name( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index ) );
 		$value = tk_get_value( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index, 'default_value' => $default_value ) );
 		
-		// Putting Args to parent
-		$args = array(
-			'id' => $id,
-			'name' => $name,
-			'css_classes' => $css_classes,
-			'value' => $value,
-			'extra' => $extra,
-			'multi_index' => $multi_index,
-			'before_element' => $before_element,
-			'after_element' => $after_element
-		);
+		$args['name'] = $field_name;
+		$args['value'] = $value;
+
 		parent::__construct( $args );
-		
-		// Rewriting Fieldname and Input Field String for WP Savings
-		$name = tk_get_field_name( $name, array( 'option_group' => $option_group, 'multi_index' => $multi_index ) );
-		$this->str_name = ' name="' . $name . '"';
 	}
 
 	function get_html(){
+		$this->field_name_set = TRUE;
 		return parent::get_html();
 	}
 

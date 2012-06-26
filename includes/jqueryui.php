@@ -102,7 +102,6 @@ class TK_Jqueryui{
 						
 			if( !in_array( $component,  $this->enqueued_components ) ){
 				$this->add_enqueued_jqueryui_component( $component );
-				
 				wp_enqueue_script( $component );
 			}
 		}
@@ -154,6 +153,7 @@ class TK_Jqueryui{
 		$this->add_jqueryui_component( 'jquery-linedtextarea', TKF_URL . '/includes/js/jquery/jquery-linedtextarea.js', '1.3.2' );
 		$this->add_jqueryui_component( 'jquery-autogrow-textarea', TKF_URL . '/includes/js/jquery/jquery.elastic.source.js', '1.6.11' );
 		$this->add_jqueryui_component( 'jquery-sheepit', TKF_URL . '/includes/js/jquery/jquery.sheepit.js', '1.4' );
+		$this->add_jqueryui_component( 'google-fonts', TKF_URL . '/includes/js/jquery/google-fonts.js', '1.4' );
 		
 		$this->add_depency( 'jquery-cookies', array( 'jquery' ) );
 		$this->add_depency( 'jquery-colorpicker', array( 'jquery-color' ) );
@@ -161,6 +161,7 @@ class TK_Jqueryui{
 		$this->add_depency( 'jquery-linedtextarea', array( 'jquery' ) );			
 		$this->add_depency( 'jquery-autogrow-textarea', array( 'jquery', 'jquery-ui' ) );
 		$this->add_depency( 'jquery-sheepit', array( 'jquery', 'jquery-ui' ) );
+		$this->add_depency( 'google-fonts', array( 'jquery', 'jquery-ui' ) );
 	}
 	
 	function init_known_jqueryui_components(){
